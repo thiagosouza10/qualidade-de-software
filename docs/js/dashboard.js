@@ -459,7 +459,8 @@ class QADashboardNova {
         document.getElementById('mttr-progress').style.width = `${Math.max(mttrProgress, 0)}%`;
 
         // Taxa de Automação
-        document.getElementById('automacao-progress').style.width = `${Math.min(100, Math.max(0, Number.isFinite(taxaAut) ? taxaAut : 0))}%`;
+        const taxaAutProgress = Number(this.metricas.taxaAutomacao);
+        document.getElementById('automacao-progress').style.width = `${Math.min(100, Math.max(0, Number.isFinite(taxaAutProgress) ? taxaAutProgress : 0))}%`;
 
         // Taxa de Acerto
         document.getElementById('acerto-progress').style.width = `${this.metricas.taxaAcerto}%`;
