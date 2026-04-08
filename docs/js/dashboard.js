@@ -235,10 +235,10 @@ class QADashboardNova {
             pontos.push('Taxa de sucesso dos testes dentro da meta');
         }
         if (this.metricas.falhaProducao === 0) {
-            pontos.push('Nenhuma falha em produção');
+            pontos.push('Nenhuma falha pós-release');
         }
         if (this.metricas.totalFalhas > 0 && this.metricas.falhaProducao === 0) {
-            pontos.push('Todas as falhas identificadas antes da produção');
+            pontos.push('Todas as falhas identificadas antes da fase pós-release');
         }
         if (this.metricas.aceitacaoHistorias >= 90) {
             pontos.push('Excelente aceitação de histórias de usuário');
@@ -278,7 +278,7 @@ class QADashboardNova {
             pontos.push('Taxa de sucesso dos testes abaixo da meta');
         }
         if (this.metricas.falhaProducao > 0) {
-            pontos.push(`Falhas em produção detectadas: ${this.metricas.falhaProducao}`);
+            pontos.push(`Falhas pós-release detectadas: ${this.metricas.falhaProducao}`);
         }
         if (this.metricas.falhaRequisito > 0) {
             pontos.push(`Falhas de requisito detectadas: ${this.metricas.falhaRequisito}`);
@@ -516,12 +516,12 @@ class QADashboardNova {
             if (falhaProducao >= limiteAlto) {
                 avisos.push({
                     tipo: 'atencao',
-                    mensagem: `🚨 Atenção Crítica: ${falhaProducao} falha(s) detectada(s) em Produção. Ação imediata necessária! É importante verificar o porque essas falhas não foram detectadas na fase de Pré-Release e Release.`
+                    mensagem: `🚨 Atenção Crítica: ${falhaProducao} falha(s) na fase Pós Release. Ação imediata necessária! É importante verificar o porque essas falhas não foram detectadas na fase de Pré-Release e Release.`
                 });
             } else if (falhaProducao > 0) {
                 avisos.push({
                     tipo: 'atencao',
-                    mensagem: `⚠️ Atenção: ${falhaProducao} falha(s) detectada(s) em Produção. Revise todo o processo para verificar onde essas falhas poderiam ser evitadas.`
+                    mensagem: `⚠️ Atenção: ${falhaProducao} falha(s) na fase Pós Release. Revise todo o processo para verificar onde essas falhas poderiam ser evitadas.`
                 });
             }
 
@@ -587,7 +587,7 @@ class QADashboardNova {
                 createGradient(ctx, '#e67e22', '#f39c12'), // Falha Automatizada Pré-Release - Amarelo mais escuro
                 createGradient(ctx, '#ff6b6b', '#ee5a6f'), // Falha Manual Release - Vermelho mais claro
                 createGradient(ctx, '#ee5a6f', '#ff6b6b'), // Falha Automatizada Release - Vermelho mais claro
-                createGradient(ctx, '#c0392b', '#a93226')  // Falha em Produção - Vermelho forte
+                createGradient(ctx, '#c0392b', '#a93226')  // Falha Pós Release - Vermelho forte
             ];
 
             // Verificar se o plugin ChartDataLabels está disponível
@@ -606,7 +606,7 @@ class QADashboardNova {
                         'Falha Automatizada Pré-Release',
                         'Falha Manual Release',
                         'Falha Automatizada Release',
-                        'Falha em Produção'
+                        'Falha Pós Release'
                     ],
                     datasets: [{
                         label: 'Quantidade de Falhas',
@@ -618,7 +618,7 @@ class QADashboardNova {
                             '#f39c12',  // Falha Automatizada Pré-Release - Amarelo mais escuro
                             '#ee5a6f',  // Falha Manual Release - Vermelho mais claro
                             '#ff6b6b',  // Falha Automatizada Release - Vermelho mais claro
-                            '#a93226'   // Falha em Produção - Vermelho forte
+                            '#a93226'   // Falha Pós Release - Vermelho forte
                         ],
                         borderWidth: 2,
                         borderRadius: 8,
@@ -1110,7 +1110,7 @@ class QADashboardNova {
                 createGradient(ctx, '#e67e22', '#f39c12'), // Falha Automatizada Pré-Release - Amarelo mais escuro
                 createGradient(ctx, '#ff6b6b', '#ee5a6f'), // Falha Manual Release - Vermelho mais claro
                 createGradient(ctx, '#ee5a6f', '#ff6b6b'), // Falha Automatizada Release - Vermelho mais claro
-                createGradient(ctx, '#c0392b', '#a93226')  // Falha em Produção - Vermelho forte
+                createGradient(ctx, '#c0392b', '#a93226')  // Falha Pós Release - Vermelho forte
             ];
             
             this.charts.falhas.data.datasets[0].data = [

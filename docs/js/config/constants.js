@@ -47,7 +47,7 @@ export const FALHAS_GRADIENT_COLORS = [
     { start: '#e67e22', end: '#f39c12' }, // Falha Automatizada Pré-Release
     { start: '#ff6b6b', end: '#ee5a6f' }, // Falha Manual Release
     { start: '#ee5a6f', end: '#ff6b6b' }, // Falha Automatizada Release
-    { start: '#c0392b', end: '#a93226' }  // Falha em Produção
+    { start: '#c0392b', end: '#a93226' }  // Falha Pós Release
 ];
 
 export const FALHAS_BORDER_COLORS = [
@@ -56,7 +56,7 @@ export const FALHAS_BORDER_COLORS = [
     '#f39c12',  // Falha Automatizada Pré-Release
     '#ee5a6f',  // Falha Manual Release
     '#ff6b6b',  // Falha Automatizada Release
-    '#a93226'   // Falha em Produção
+    '#a93226'   // Falha Pós Release
 ];
 
 export const PRIORIDADE_COLORS = {

@@ -120,7 +120,7 @@
                         </div>
                     </div>
                     
-                    <!-- Segunda linha: Falha Manual Release e Falha Automatizada Release + Bugs em Produção -->
+                    <!-- Segunda linha: Falha Manual Release e Falha Automatizada Release + Falha Pós Release -->
                     <div class="row mt-3">
                         <div class="col-lg-8 col-md-6 mb-3">
                             <div class="card" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
@@ -148,7 +148,7 @@
                             <div class="card" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
                                 <div class="card-body p-3">
                                     <div class="input-group-custom">
-                                        <label for="falha-producao">Bugs em Produção</label>
+                                        <label for="falha-producao">Falha Pós Release</label>
                                         <input type="number" id="falha-producao" class="form-control" placeholder="Ex: 0" min="0">
                                     </div>
                                 </div>
@@ -396,10 +396,10 @@
                     <div class="help-item mb-4">
                         <h6 class="text-dark"><i class="bi bi-exclamation-triangle text-danger"></i> Falhas durante o Ciclo de Desenvolvimento</h6>
                         <p class="text-muted mb-2">
-                            <strong>O que é:</strong> Esta métrica rastreia todos os tipos de falhas identificadas durante o ciclo completo de desenvolvimento, desde a fase de requisitos até a produção.
+                            <strong>O que é:</strong> Esta métrica rastreia todos os tipos de falhas identificadas durante o ciclo completo de desenvolvimento, desde a fase de requisitos até a fase pós-release.
                         </p>
                         <p class="text-muted mb-2">
-                            <strong>Objetivo:</strong> Identificar em qual fase do ciclo as falhas são detectadas, permitindo melhorar os processos de teste e reduzir falhas em produção.
+                            <strong>Objetivo:</strong> Identificar em qual fase do ciclo as falhas são detectadas, permitindo melhorar os processos de teste e reduzir falhas na fase pós-release.
                         </p>
                         <div class="alert alert-warning py-2">
                             <small><strong>Importante:</strong> Quanto mais cedo as falhas forem detectadas, menor o custo de correção e menor o impacto para os usuários</small>
@@ -484,17 +484,17 @@
 
                         <div class="col-lg-6 mb-3">
                             <div class="help-item">
-                                <h6 class="text-dark"><i class="bi bi-exclamation-triangle-fill text-danger"></i> Bug em produção</h6>
+                                <h6 class="text-dark"><i class="bi bi-exclamation-triangle-fill text-danger"></i> Falha Pós Release</h6>
                                 <p class="text-muted mb-2">
-                                    <strong>O que valida:</strong> Esta métrica valida se houve bugs detectados em ambiente de produção durante o período analisado.
+                                    <strong>O que é:</strong> Falhas detectadas após a publicação da release (monitoramento, validação pós-deploy ou uso em ambiente produtivo), contabilizadas nesta fase do funil.
                                 </p>
                                 <p class="text-muted mb-2">
-                                    <strong>O que conta como Bug em Produção:</strong>
+                                    <strong>O que conta neste campo:</strong>
                                 </p>
                                 <ul class="text-muted mb-2">
-                                    <li>Bugs encontrados durante testes de validação em produção</li>
-                                    <li>Bugs reportados pelos usuários após o deploy</li>
-                                    <li>Qualquer problema identificado no ambiente de produção</li>
+                                    <li>Problemas encontrados em validação ou smoke após o deploy</li>
+                                    <li>Falhas reportadas por usuários ou monitoramento após a release</li>
+                                    <li>Incidentes atribuídos ao período pós-publicação da release</li>
                                 </ul>
                             </div>
                         </div>
@@ -703,7 +703,7 @@
                             <li><strong>Falhas no Ciclo:</strong> Para a Métrica Falhas durante o Ciclo de Desenvolvimento, conte todas as falhas do período</li>
                             <li><strong>Classificação de Falhas:</strong> Classifique cada falha na fase mais precoce onde foi detectada</li>
                             <li><strong>Observações:</strong> Adicione comentários sobre eventos especiais que podem ter afetado as métricas (ex: mudanças de equipe, feriados, releases críticos)</li>
-                            <li><strong>Foco em Produção:</strong> Priorize reduzir falhas em produção - este é o indicador mais crítico de qualidade</li>
+                            <li><strong>Falha Pós Release:</strong> Priorize reduzir falhas nesta fase — costuma ser o indicador mais crítico de escape para o usuário final</li>
                         </ul>
                     </div>
                 </div>

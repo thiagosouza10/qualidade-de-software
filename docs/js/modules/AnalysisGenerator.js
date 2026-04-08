@@ -46,10 +46,10 @@ class AnalysisGenerator {
             pontos.push(`Taxa de sucesso dos testes: BOM (${formatMetricValue(metricas.taxaSucessoTestes)}%)`);
         }
         if (metricas.falhaProducao === 0) {
-            pontos.push('Nenhuma falha em produção');
+            pontos.push('Nenhuma falha pós-release');
         }
         if (metricas.totalFalhas > 0 && metricas.falhaProducao === 0) {
-            pontos.push('Todas as falhas identificadas antes da produção');
+            pontos.push('Todas as falhas identificadas antes da fase pós-release');
         }
         if (metricas.aceitacaoHistorias >= 90) {
             pontos.push('Excelente aceitação de histórias de usuário');
@@ -79,7 +79,7 @@ class AnalysisGenerator {
             pontos.push('Taxa de sucesso dos testes abaixo da meta');
         }
         if (metricas.falhaProducao > 0) {
-            pontos.push(`Falhas em produção detectadas: ${metricas.falhaProducao}`);
+            pontos.push(`Falhas pós-release detectadas: ${metricas.falhaProducao}`);
         }
         if (metricas.falhaRequisito > 0) {
             pontos.push(`Falhas de requisito detectadas: ${metricas.falhaRequisito}`);
@@ -140,12 +140,12 @@ class AnalysisGenerator {
         if (falhaProducao >= limiteAlto) {
             avisos.push({
                 tipo: 'atencao',
-                mensagem: `🚨 Atenção Crítica: ${falhaProducao} falha(s) detectada(s) em Produção. Ação imediata necessária! É importante verificar o porque essas falhas não foram detectadas na fase de Pré-Release e Release.`
+                mensagem: `🚨 Atenção Crítica: ${falhaProducao} falha(s) na fase Pós Release. Ação imediata necessária! É importante verificar o porque essas falhas não foram detectadas na fase de Pré-Release e Release.`
             });
         } else if (falhaProducao > 0) {
             avisos.push({
                 tipo: 'atencao',
-                mensagem: `⚠️ Atenção: ${falhaProducao} falha(s) detectada(s) em Produção. Revise todo o processo para verificar onde essas falhas poderiam ser evitadas.`
+                mensagem: `⚠️ Atenção: ${falhaProducao} falha(s) na fase Pós Release. Revise todo o processo para verificar onde essas falhas poderiam ser evitadas.`
             });
         }
 
