@@ -71,7 +71,9 @@ class QADashboardNova {
                 historiasTotais: parseInt(document.getElementById('historias-totais').value) || 0,
                 historiasAceitas: parseInt(document.getElementById('historias-aceitas').value) || 0,
                 taxaAutomacao: 0,
-                taxaAcerto: parseFloat(document.getElementById('taxa-acerto').value) || 0,
+                acertoBugsValidos: parseInt(document.getElementById('taxa-acerto-bugs-validos').value, 10) || 0,
+                acertoTotalBugs: parseInt(document.getElementById('taxa-acerto-total-bugs').value, 10) || 0,
+                taxaAcerto: 0,
                 defectsAbertos: parseInt(document.getElementById('defeitos-abertos').value) || 0,
                 defectsFechados: parseInt(document.getElementById('defeitos-fechados').value) || 0,
                 bugsAbertos: parseInt(document.getElementById('bugs-abertos').value) || 0,
@@ -154,6 +156,12 @@ class QADashboardNova {
                 ? MetricsCalculator.computeTaxaAutomacao(ta, tc)
                 : (tc > 0 ? Math.round((ta / tc) * 1000) / 10 : 0);
 
+            const bv = this.metricas.acertoBugsValidos || 0;
+            const tb = this.metricas.acertoTotalBugs || 0;
+            this.metricas.taxaAcerto = MetricsCalculator && typeof MetricsCalculator.computeTaxaAcerto === 'function'
+                ? MetricsCalculator.computeTaxaAcerto(bv, tb)
+                : (tb > 0 ? Math.round((bv / tb) * 1000) / 10 : 0);
+
             this.metricas.statusGeral = this.calcularStatusGeral();
         }
 
@@ -167,6 +175,12 @@ class QADashboardNova {
         if (taxaAutomacaoInput) {
             const a = this.metricas.taxaAutomacao;
             taxaAutomacaoInput.value = Number.isFinite(a) ? (Math.round(a * 10) / 10).toFixed(1) : '0.0';
+        }
+
+        const taxaAcertoInput = document.getElementById('taxa-acerto');
+        if (taxaAcertoInput) {
+            const t = this.metricas.taxaAcerto;
+            taxaAcertoInput.value = Number.isFinite(t) ? (Math.round(t * 10) / 10).toFixed(1) : '0.0';
         }
 
         // Pontos positivos e de atenção usando AnalysisGenerator se disponível
@@ -371,7 +385,8 @@ class QADashboardNova {
         document.getElementById('automacao-valor').textContent = `${Number.isFinite(taxaAut) ? (Math.round(taxaAut * 10) / 10).toFixed(1) : '0.0'}%`;
         
         // Taxa de Acerto
-        document.getElementById('acerto-valor').textContent = `${this.metricas.taxaAcerto}%`;
+        const taxaAc = Number(this.metricas.taxaAcerto);
+        document.getElementById('acerto-valor').textContent = `${Number.isFinite(taxaAc) ? (Math.round(taxaAc * 10) / 10).toFixed(1) : '0.0'}%`;
 
         // Defects vs Bugs
         document.getElementById('defects-fechados-valor').textContent = this.metricas.defectsFechados;
@@ -463,7 +478,8 @@ class QADashboardNova {
         document.getElementById('automacao-progress').style.width = `${Math.min(100, Math.max(0, Number.isFinite(taxaAutProgress) ? taxaAutProgress : 0))}%`;
 
         // Taxa de Acerto
-        document.getElementById('acerto-progress').style.width = `${this.metricas.taxaAcerto}%`;
+        const taxaAcertoBar = Number(this.metricas.taxaAcerto);
+        document.getElementById('acerto-progress').style.width = `${Math.min(100, Math.max(0, Number.isFinite(taxaAcertoBar) ? taxaAcertoBar : 0))}%`;
 
         // Aceitação de História de Usuário
         const aceitacaoHistorias = this.metricas.aceitacaoHistorias || 0;
