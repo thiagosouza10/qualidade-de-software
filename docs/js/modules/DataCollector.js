@@ -31,7 +31,7 @@ class DataCollector {
             historiasAceitas: parseInt(document.getElementById('historias-aceitas').value) || 0,
             
             // Taxa de Automação
-            taxaAutomacao: parseFloat(document.getElementById('taxa-automacao').value) || 0,
+            taxaAutomacao: 0,
             
             // Taxa de Acerto
             taxaAcerto: parseFloat(document.getElementById('taxa-acerto').value) || 0,

@@ -70,7 +70,7 @@ class QADashboardNova {
                 mttr: parseFloat(document.getElementById('mttr').value) || 0,
                 historiasTotais: parseInt(document.getElementById('historias-totais').value) || 0,
                 historiasAceitas: parseInt(document.getElementById('historias-aceitas').value) || 0,
-                taxaAutomacao: parseFloat(document.getElementById('taxa-automacao').value) || 0,
+                taxaAutomacao: 0,
                 taxaAcerto: parseFloat(document.getElementById('taxa-acerto').value) || 0,
                 defectsAbertos: parseInt(document.getElementById('defeitos-abertos').value) || 0,
                 defectsFechados: parseInt(document.getElementById('defeitos-fechados').value) || 0,
@@ -148,6 +148,12 @@ class QADashboardNova {
                 ? MetricsCalculator.computeTaxaEscape(eb, ef, et)
                 : (denomEscape > 0 ? Math.round((eb / denomEscape) * 1000) / 10 : 0);
 
+            const tc = this.metricas.testesCriados || 0;
+            const ta = this.metricas.testesAutomatizados || 0;
+            this.metricas.taxaAutomacao = MetricsCalculator && typeof MetricsCalculator.computeTaxaAutomacao === 'function'
+                ? MetricsCalculator.computeTaxaAutomacao(ta, tc)
+                : (tc > 0 ? Math.round((ta / tc) * 1000) / 10 : 0);
+
             this.metricas.statusGeral = this.calcularStatusGeral();
         }
 
@@ -155,6 +161,12 @@ class QADashboardNova {
         if (taxaEscapeInput) {
             const v = this.metricas.taxaEscape;
             taxaEscapeInput.value = Number.isFinite(v) ? (Math.round(v * 10) / 10).toFixed(1) : '0.0';
+        }
+
+        const taxaAutomacaoInput = document.getElementById('taxa-automacao');
+        if (taxaAutomacaoInput) {
+            const a = this.metricas.taxaAutomacao;
+            taxaAutomacaoInput.value = Number.isFinite(a) ? (Math.round(a * 10) / 10).toFixed(1) : '0.0';
         }
 
         // Pontos positivos e de atenção usando AnalysisGenerator se disponível
@@ -355,7 +367,8 @@ class QADashboardNova {
         valorElementAceitacao.className = `metric-value ${this.getStatusClassMetric(statusAceitacao)}`;
         
         // Taxa de Automação
-        document.getElementById('automacao-valor').textContent = `${this.metricas.taxaAutomacao}%`;
+        const taxaAut = Number(this.metricas.taxaAutomacao);
+        document.getElementById('automacao-valor').textContent = `${Number.isFinite(taxaAut) ? (Math.round(taxaAut * 10) / 10).toFixed(1) : '0.0'}%`;
         
         // Taxa de Acerto
         document.getElementById('acerto-valor').textContent = `${this.metricas.taxaAcerto}%`;
@@ -446,7 +459,7 @@ class QADashboardNova {
         document.getElementById('mttr-progress').style.width = `${Math.max(mttrProgress, 0)}%`;
 
         // Taxa de Automação
-        document.getElementById('automacao-progress').style.width = `${this.metricas.taxaAutomacao}%`;
+        document.getElementById('automacao-progress').style.width = `${Math.min(100, Math.max(0, Number.isFinite(taxaAut) ? taxaAut : 0))}%`;
 
         // Taxa de Acerto
         document.getElementById('acerto-progress').style.width = `${this.metricas.taxaAcerto}%`;
