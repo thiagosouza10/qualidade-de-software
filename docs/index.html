@@ -92,24 +92,23 @@
                 <div class="col-12 mb-4">
                     <h4 class="text-primary mb-3">🔴 Falhas durante o Ciclo de Desenvolvimento</h4>
                     
-                    <!-- Primeira linha: Falha de Requisito, Falha Manual Pré-Release e Falha Automatizada Pré-Release -->
+                    <!-- Pré-Release -->
                     <div class="card mt-3 mb-3" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
                         <div class="card-body p-3">
+                            <div class="mb-3" style="font-weight: 600; color: var(--primary-color); font-size: 1rem;">Pré-Release</div>
                             <div class="row">
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-6 mb-3 mb-lg-0">
                                     <div class="input-group-custom">
-                                        <label for="falha-requisito">Falha de Requisito</label>
+                                        <label for="falha-requisito">Falhas de Requisitos</label>
                                         <input type="number" id="falha-requisito" class="form-control" placeholder="Ex: 5" min="0">
                                     </div>
                                 </div>
-                                
-                                <div class="col-lg-4 col-md-6">
+                                <div class="col-lg-4 col-md-6 mb-3 mb-lg-0">
                                     <div class="input-group-custom">
                                         <label for="falha-manual-pre-release">Falha Manual Pré-Release</label>
                                         <input type="number" id="falha-manual-pre-release" class="form-control" placeholder="Ex: 8" min="0">
                                     </div>
                                 </div>
-                                
                                 <div class="col-lg-4 col-md-6">
                                     <div class="input-group-custom">
                                         <label for="falha-automatizada-pre-release">Falha Automatizada Pré-Release</label>
@@ -119,34 +118,34 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Segunda linha: Falha Manual Release e Falha Automatizada Release + Falha Pós Release -->
-                    <div class="row mt-3">
-                        <div class="col-lg-8 col-md-6 mb-3">
-                            <div class="card" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
-                                <div class="card-body p-3">
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="input-group-custom">
-                                                <label for="falha-manual-release">Falha Manual Release</label>
-                                                <input type="number" id="falha-manual-release" class="form-control" placeholder="Ex: 2" min="0">
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-lg-6 col-md-6">
-                                            <div class="input-group-custom">
-                                                <label for="falha-automatizada-release">Falha Automatizada Release</label>
-                                                <input type="number" id="falha-automatizada-release" class="form-control" placeholder="Ex: 1" min="0">
-                                            </div>
-                                        </div>
+
+                    <!-- Release -->
+                    <div class="card mt-3 mb-3" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+                        <div class="card-body p-3">
+                            <div class="mb-3" style="font-weight: 600; color: var(--primary-color); font-size: 1rem;">Release</div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 mb-3 mb-lg-0">
+                                    <div class="input-group-custom">
+                                        <label for="falha-manual-release">Falha Manual Release</label>
+                                        <input type="number" id="falha-manual-release" class="form-control" placeholder="Ex: 2" min="0">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="input-group-custom">
+                                        <label for="falha-automatizada-release">Falha Automatizada Release</label>
+                                        <input type="number" id="falha-automatizada-release" class="form-control" placeholder="Ex: 1" min="0">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="col-lg-4 col-md-6 mb-3">
-                            <div class="card" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
-                                <div class="card-body p-3">
+                    </div>
+
+                    <!-- Produção -->
+                    <div class="card mt-3 mb-3" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+                        <div class="card-body p-3">
+                            <div class="mb-3" style="font-weight: 600; color: var(--primary-color); font-size: 1rem;">Produção</div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6">
                                     <div class="input-group-custom">
                                         <label for="falha-producao">Falha Pós Release</label>
                                         <input type="number" id="falha-producao" class="form-control" placeholder="Ex: 0" min="0">
@@ -166,19 +165,27 @@
                             <div class="input-group-custom">
                                 <label for="taxa-escape">Taxa de Escape (%)</label>
                                 <input type="number" id="taxa-escape" class="form-control bg-light" placeholder="Calcule as métricas" step="0.1" min="0" max="100" readonly aria-readonly="true" title="Bugs em produção ÷ (Total falhas QA + Total bugs em produção) × 100">
-                                <small class="form-text text-muted">Calculada automaticamente. Meta: &lt; 5%</small>
+                                <small class="form-text text-muted">Meta: &lt; 5%<br>Calculada automaticamente.</small>
                             </div>
-                            <div class="input-group-custom">
-                                <label for="taxa-escape-bugs-producao">Bugs em produção</label>
-                                <input type="number" id="taxa-escape-bugs-producao" class="form-control" placeholder="Ex: 3" min="0" title="Bugs identificados em produção (numerador)">
-                            </div>
-                            <div class="input-group-custom">
-                                <label for="taxa-escape-total-falhas-qa">Total de falhas QA</label>
-                                <input type="number" id="taxa-escape-total-falhas-qa" class="form-control" placeholder="Ex: 12" min="0" title="Total de falhas do ciclo de QA no período">
-                            </div>
-                            <div class="input-group-custom">
-                                <label for="taxa-escape-total-bugs-producao">Total de Bugs em Produção</label>
-                                <input type="number" id="taxa-escape-total-bugs-producao" class="form-control" placeholder="Ex: 8" min="0" title="Total de bugs em produção no denominador">
+                            <div class="row g-2 align-items-end">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="input-group-custom">
+                                        <label for="taxa-escape-bugs-producao">Bugs em produção</label>
+                                        <input type="number" id="taxa-escape-bugs-producao" class="form-control" placeholder="Ex: 3" min="0" title="Bugs identificados em produção (numerador)">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="input-group-custom">
+                                        <label for="taxa-escape-total-falhas-qa">Total de falhas QA</label>
+                                        <input type="number" id="taxa-escape-total-falhas-qa" class="form-control" placeholder="Ex: 12" min="0" title="Total de falhas do ciclo de QA no período">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="input-group-custom">
+                                        <label for="taxa-escape-total-bugs-producao">Total de Bugs em Produção</label>
+                                        <input type="number" id="taxa-escape-total-bugs-producao" class="form-control" placeholder="Ex: 8" min="0" title="Total de bugs em produção no denominador">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -308,15 +315,21 @@
                             <div class="input-group-custom">
                                 <label for="taxa-acerto">Taxa de Acerto (%)</label>
                                 <input type="number" id="taxa-acerto" class="form-control bg-light" placeholder="Calcule as métricas" step="0.1" min="0" max="100" readonly aria-readonly="true" title="Bugs Válidos ÷ Total de Bugs × 100 (equivalente a total de reports na fórmula)">
-                                <small class="form-text text-muted">Calculada: Bugs Válidos ÷ Total de Bugs × 100. Meta: &gt; 85%</small>
+                                <small class="form-text text-muted">Meta: &gt; 85%<br>Calculada automaticamente.</small>
                             </div>
-                            <div class="input-group-custom">
-                                <label for="taxa-acerto-bugs-validos">Bugs Válidos</label>
-                                <input type="number" id="taxa-acerto-bugs-validos" class="form-control" placeholder="Ex: 85" min="0" title="Bugs reportados confirmados como válidos (numerador)">
-                            </div>
-                            <div class="input-group-custom">
-                                <label for="taxa-acerto-total-bugs">Total de Bugs</label>
-                                <input type="number" id="taxa-acerto-total-bugs" class="form-control" placeholder="Ex: 100" min="0" title="Total de reports / bugs no denominador da taxa">
+                            <div class="row g-2 align-items-end">
+                                <div class="col-md-6">
+                                    <div class="input-group-custom">
+                                        <label for="taxa-acerto-bugs-validos">Bugs Válidos</label>
+                                        <input type="number" id="taxa-acerto-bugs-validos" class="form-control" placeholder="Ex: 85" min="0" title="Bugs reportados confirmados como válidos (numerador)">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group-custom">
+                                        <label for="taxa-acerto-total-bugs">Total de Bugs</label>
+                                        <input type="number" id="taxa-acerto-total-bugs" class="form-control" placeholder="Ex: 100" min="0" title="Total de reports / bugs no denominador da taxa">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -439,7 +452,7 @@
                     <div class="row">
                         <div class="col-lg-6 mb-3">
                             <div class="help-item">
-                                <h6 class="text-dark"><i class="bi bi-file-text text-danger"></i> Falha de Requisito</h6>
+                                <h6 class="text-dark"><i class="bi bi-file-text text-danger"></i> Falhas de Requisitos</h6>
                                 <p class="text-muted mb-2">
                                     <strong>O que é:</strong> Falhas identificadas durante a análise ou revisão de requisitos, antes mesmo do desenvolvimento começar.
                                 </p>
