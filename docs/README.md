@@ -65,7 +65,7 @@ qa-metricas/
 ## 📊 Métricas Principais
 
 - **Falhas durante o Ciclo** - Rastreamento por fase (Requisito, Pré-Release, Release, Falha Pós Release)
-- **Taxa de Escape** - Percentual de bugs que escaparam dos testes e chegaram à produção (≤ 5%)
+- **Taxa de Escape** - Calculada a partir de três campos: Bugs em produção ÷ (Total falhas QA + Total bugs em produção) × 100; meta ≤ 5%
 - **MTTR** - Tempo médio de resolução (≤ 16h)
 - **Aceitação de Histórias** - Percentual aceito pelo PO (≥ 90%)
 - **Taxa de Automação** - Percentual de testes automatizados

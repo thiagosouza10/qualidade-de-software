@@ -14,13 +14,24 @@ const METAS = {
 
 class MetricsCalculator {
     /**
+     * Taxa de Escape (%): Bugs em produção / (Total falhas QA + Total bugs em produção) × 100
+     */
+    static computeTaxaEscape(bugsEmProducao, totalFalhasQa, totalBugsProducao) {
+        const b = bugsEmProducao || 0;
+        const denom = (totalFalhasQa || 0) + (totalBugsProducao || 0);
+        if (denom <= 0) return 0;
+        return Math.round((b / denom) * 1000) / 10;
+    }
+
+    /**
      * Calcula métricas derivadas a partir dos dados coletados
      */
     static calculateDerivedMetrics(metricas) {
         const { bugsAbertos, bugsFechados, defectsAbertos, defectsFechados, 
                 historiasTotais, historiasAceitas, testesExecutados, testesPassaram,
                 falhaRequisito, falhaManualPreRelease, falhaAutomatizadaPreRelease,
-                falhaManualRelease, falhaAutomatizadaRelease, falhaProducao } = metricas;
+                falhaManualRelease, falhaAutomatizadaRelease, falhaProducao,
+                escapeBugsProducao, escapeTotalFalhasQa, escapeTotalBugsProducao } = metricas;
 
         // Total de falhas
         const totalFalhas = falhaRequisito + falhaManualPreRelease + 
@@ -41,9 +52,16 @@ class MetricsCalculator {
         // Taxa de sucesso dos testes
         const taxaSucessoTestes = testesExecutados > 0 ? (testesPassaram / testesExecutados) * 100 : 0;
 
+        const taxaEscape = MetricsCalculator.computeTaxaEscape(
+            escapeBugsProducao,
+            escapeTotalFalhasQa,
+            escapeTotalBugsProducao
+        );
+
         return {
             ...metricas,
             totalFalhas,
+            taxaEscape,
             taxaCorrecaoBugs,
             taxaCorrecaoDefects,
             aceitacaoHistorias,

@@ -17,8 +17,11 @@ class DataCollector {
             falhaAutomatizadaRelease: parseInt(document.getElementById('falha-automatizada-release').value) || 0,
             falhaProducao: parseInt(document.getElementById('falha-producao').value) || 0,
             
-            // Taxa de Escape
-            taxaEscape: parseFloat(document.getElementById('taxa-escape').value) || 0,
+            // Taxa de Escape (entradas dedicadas + valor calculado em calculateDerivedMetrics)
+            escapeBugsProducao: parseInt(document.getElementById('taxa-escape-bugs-producao').value, 10) || 0,
+            escapeTotalFalhasQa: parseInt(document.getElementById('taxa-escape-total-falhas-qa').value, 10) || 0,
+            escapeTotalBugsProducao: parseInt(document.getElementById('taxa-escape-total-bugs-producao').value, 10) || 0,
+            taxaEscape: 0,
             
             // MTTR
             mttr: parseFloat(document.getElementById('mttr').value) || 0,

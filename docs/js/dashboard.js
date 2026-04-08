@@ -63,7 +63,10 @@ class QADashboardNova {
                 falhaManualRelease: parseInt(document.getElementById('falha-manual-release').value) || 0,
                 falhaAutomatizadaRelease: parseInt(document.getElementById('falha-automatizada-release').value) || 0,
                 falhaProducao: parseInt(document.getElementById('falha-producao').value) || 0,
-                taxaEscape: parseFloat(document.getElementById('taxa-escape').value) || 0,
+                escapeBugsProducao: parseInt(document.getElementById('taxa-escape-bugs-producao').value, 10) || 0,
+                escapeTotalFalhasQa: parseInt(document.getElementById('taxa-escape-total-falhas-qa').value, 10) || 0,
+                escapeTotalBugsProducao: parseInt(document.getElementById('taxa-escape-total-bugs-producao').value, 10) || 0,
+                taxaEscape: 0,
                 mttr: parseFloat(document.getElementById('mttr').value) || 0,
                 historiasTotais: parseInt(document.getElementById('historias-totais').value) || 0,
                 historiasAceitas: parseInt(document.getElementById('historias-aceitas').value) || 0,
@@ -137,7 +140,21 @@ class QADashboardNova {
             this.metricas.taxaSucessoTestes = testesExecutados > 0 ? (testesPassaram / testesExecutados) * 100 : 0;
             this.metricas.statusTaxaSucessoTestes = this.classificarTaxaSucessoTestes(this.metricas.taxaSucessoTestes);
 
+            const eb = this.metricas.escapeBugsProducao || 0;
+            const ef = this.metricas.escapeTotalFalhasQa || 0;
+            const et = this.metricas.escapeTotalBugsProducao || 0;
+            const denomEscape = ef + et;
+            this.metricas.taxaEscape = MetricsCalculator && typeof MetricsCalculator.computeTaxaEscape === 'function'
+                ? MetricsCalculator.computeTaxaEscape(eb, ef, et)
+                : (denomEscape > 0 ? Math.round((eb / denomEscape) * 1000) / 10 : 0);
+
             this.metricas.statusGeral = this.calcularStatusGeral();
+        }
+
+        const taxaEscapeInput = document.getElementById('taxa-escape');
+        if (taxaEscapeInput) {
+            const v = this.metricas.taxaEscape;
+            taxaEscapeInput.value = Number.isFinite(v) ? (Math.round(v * 10) / 10).toFixed(1) : '0.0';
         }
 
         // Pontos positivos e de atenção usando AnalysisGenerator se disponível
@@ -319,7 +336,8 @@ class QADashboardNova {
         this.atualizarAvisosFalhas();
 
         // Taxa de Escape
-        document.getElementById('taxa-escape-valor').textContent = `${this.metricas.taxaEscape}%`;
+        const taxaEsc = Number(this.metricas.taxaEscape);
+        document.getElementById('taxa-escape-valor').textContent = `${Number.isFinite(taxaEsc) ? (Math.round(taxaEsc * 10) / 10).toFixed(1) : '0.0'}%`;
         
         // MTTR
         document.getElementById('mttr-valor').textContent = `${this.metricas.mttr}h`;
