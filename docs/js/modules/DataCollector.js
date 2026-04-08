@@ -33,8 +33,10 @@ class DataCollector {
             // Taxa de Automação
             taxaAutomacao: 0,
             
-            // Taxa de Acerto
-            taxaAcerto: parseFloat(document.getElementById('taxa-acerto').value) || 0,
+            // Taxa de Acerto (entradas + valor calculado em calculateDerivedMetrics)
+            acertoBugsValidos: parseInt(document.getElementById('taxa-acerto-bugs-validos').value, 10) || 0,
+            acertoTotalBugs: parseInt(document.getElementById('taxa-acerto-total-bugs').value, 10) || 0,
+            taxaAcerto: 0,
             
             // Defects vs Bugs
             defectsAbertos: parseInt(document.getElementById('defeitos-abertos').value) || 0,

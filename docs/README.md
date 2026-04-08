@@ -69,6 +69,6 @@ qa-metricas/
 - **MTTR** - Tempo médio de resolução (≤ 16h)
 - **Aceitação de Histórias** - Percentual aceito pelo PO (≥ 90%)
 - **Taxa de Automação** - Calculada: Testes Automatizados ÷ Testes Criados × 100 (Métricas de Testes)
-- **Taxa de Acerto** - Percentual de bugs válidos (≥ 85%)
+- **Taxa de Acerto** - Calculada: Bugs Válidos ÷ Total de Bugs × 100 (denominador = total de reports); meta ≥ 85%
 - **Bugs em Produção** - Bugs fechados > bugs abertos (indica eficiência na correção)
 - **Taxa de Sucesso dos Testes** ≥ 95% (Excelente: ≥95%, Boa: 85-95%, Monitorar: 75-85%, Alerta: <75%)

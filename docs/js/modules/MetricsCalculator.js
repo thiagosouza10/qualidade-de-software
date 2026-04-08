@@ -34,6 +34,16 @@ class MetricsCalculator {
     }
 
     /**
+     * Taxa de Acerto (%): Bugs válidos ÷ total de reports × 100 (total de bugs/reports no denominador).
+     */
+    static computeTaxaAcerto(bugsValidos, totalReports) {
+        const v = bugsValidos || 0;
+        const t = totalReports || 0;
+        if (t <= 0) return 0;
+        return Math.round((v / t) * 1000) / 10;
+    }
+
+    /**
      * Calcula métricas derivadas a partir dos dados coletados
      */
     static calculateDerivedMetrics(metricas) {
@@ -42,7 +52,8 @@ class MetricsCalculator {
                 testesCriados, testesAutomatizados,
                 falhaRequisito, falhaManualPreRelease, falhaAutomatizadaPreRelease,
                 falhaManualRelease, falhaAutomatizadaRelease, falhaProducao,
-                escapeBugsProducao, escapeTotalFalhasQa, escapeTotalBugsProducao } = metricas;
+                escapeBugsProducao, escapeTotalFalhasQa, escapeTotalBugsProducao,
+                acertoBugsValidos, acertoTotalBugs } = metricas;
 
         // Total de falhas
         const totalFalhas = falhaRequisito + falhaManualPreRelease + 
@@ -71,11 +82,14 @@ class MetricsCalculator {
 
         const taxaAutomacao = MetricsCalculator.computeTaxaAutomacao(testesAutomatizados, testesCriados);
 
+        const taxaAcerto = MetricsCalculator.computeTaxaAcerto(acertoBugsValidos, acertoTotalBugs);
+
         return {
             ...metricas,
             totalFalhas,
             taxaEscape,
             taxaAutomacao,
+            taxaAcerto,
             taxaCorrecaoBugs,
             taxaCorrecaoDefects,
             aceitacaoHistorias,
