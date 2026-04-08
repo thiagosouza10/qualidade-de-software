@@ -68,7 +68,7 @@ qa-metricas/
 - **Taxa de Escape** - Calculada a partir de três campos: Bugs em produção ÷ (Total falhas QA + Total bugs em produção) × 100; meta ≤ 5%
 - **MTTR** - Tempo médio de resolução (≤ 16h)
 - **Aceitação de Histórias** - Percentual aceito pelo PO (≥ 90%)
-- **Taxa de Automação** - Percentual de testes automatizados
+- **Taxa de Automação** - Calculada: Testes Automatizados ÷ Testes Criados × 100 (Métricas de Testes)
 - **Taxa de Acerto** - Percentual de bugs válidos (≥ 85%)
 - **Bugs em Produção** - Bugs fechados > bugs abertos (indica eficiência na correção)
 - **Taxa de Sucesso dos Testes** ≥ 95% (Excelente: ≥95%, Boa: 85-95%, Monitorar: 75-85%, Alerta: <75%)

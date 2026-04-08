@@ -24,11 +24,22 @@ class MetricsCalculator {
     }
 
     /**
+     * Taxa de Automação (%): Testes Automatizados ÷ Testes Criados × 100 (Métricas de Testes)
+     */
+    static computeTaxaAutomacao(testesAutomatizados, testesCriados) {
+        const auto = testesAutomatizados || 0;
+        const criados = testesCriados || 0;
+        if (criados <= 0) return 0;
+        return Math.round((auto / criados) * 1000) / 10;
+    }
+
+    /**
      * Calcula métricas derivadas a partir dos dados coletados
      */
     static calculateDerivedMetrics(metricas) {
         const { bugsAbertos, bugsFechados, defectsAbertos, defectsFechados, 
                 historiasTotais, historiasAceitas, testesExecutados, testesPassaram,
+                testesCriados, testesAutomatizados,
                 falhaRequisito, falhaManualPreRelease, falhaAutomatizadaPreRelease,
                 falhaManualRelease, falhaAutomatizadaRelease, falhaProducao,
                 escapeBugsProducao, escapeTotalFalhasQa, escapeTotalBugsProducao } = metricas;
@@ -58,10 +69,13 @@ class MetricsCalculator {
             escapeTotalBugsProducao
         );
 
+        const taxaAutomacao = MetricsCalculator.computeTaxaAutomacao(testesAutomatizados, testesCriados);
+
         return {
             ...metricas,
             totalFalhas,
             taxaEscape,
+            taxaAutomacao,
             taxaCorrecaoBugs,
             taxaCorrecaoDefects,
             aceitacaoHistorias,
