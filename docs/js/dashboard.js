@@ -179,8 +179,13 @@ class QADashboardNova {
 
         const taxaAcertoInput = document.getElementById('taxa-acerto');
         if (taxaAcertoInput) {
-            const t = this.metricas.taxaAcerto;
-            taxaAcertoInput.value = Number.isFinite(t) ? (Math.round(t * 10) / 10).toFixed(1) : '0.0';
+            const tb = this.metricas.acertoTotalBugs || 0;
+            if (tb <= 0) {
+                taxaAcertoInput.value = '';
+            } else {
+                const t = this.metricas.taxaAcerto;
+                taxaAcertoInput.value = Number.isFinite(t) ? (Math.round(t * 10) / 10).toFixed(1) : '0.0';
+            }
         }
 
         // Pontos positivos e de atenção usando AnalysisGenerator se disponível
