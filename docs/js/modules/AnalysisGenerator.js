@@ -31,7 +31,7 @@ class AnalysisGenerator {
     static generatePositivePoints(metricas) {
         const pontos = [];
 
-        if (metricas.taxaEscape <= METAS.taxaEscape) {
+        if (metricas.escapeAmostraValida && metricas.taxaEscape <= METAS.taxaEscape) {
             pontos.push('Taxa de escape dentro da meta');
         }
         if (metricas.mttr <= METAS.mttr) {
@@ -66,7 +66,9 @@ class AnalysisGenerator {
     static generateAttentionPoints(metricas) {
         const pontos = [];
 
-        if (metricas.taxaEscape > METAS.taxaEscape) {
+        if (!metricas.escapeAmostraValida) {
+            pontos.push(`Taxa de escape com amostra insuficiente (mínimo 20, atual ${metricas.escapeTotalBase || 0})`);
+        } else if (metricas.taxaEscape > METAS.taxaEscape) {
             pontos.push('Taxa de escape acima da meta');
         }
         if (metricas.mttr > METAS.mttr) {

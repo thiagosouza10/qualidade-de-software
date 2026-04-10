@@ -8,6 +8,7 @@
 const DataCollector = window.DataCollector;
 const MetricsCalculator = window.MetricsCalculator;
 const AnalysisGenerator = window.AnalysisGenerator;
+const ESCAPE_MINIMO_AMOSTRA = 20;
 
 class QADashboardNova {
     constructor() {
@@ -66,7 +67,9 @@ class QADashboardNova {
                 escapeBugsProducao: parseInt(document.getElementById('taxa-escape-bugs-producao').value, 10) || 0,
                 escapeTotalFalhasQa: parseInt(document.getElementById('taxa-escape-total-falhas-qa').value, 10) || 0,
                 escapeTotalBugsProducao: parseInt(document.getElementById('taxa-escape-total-bugs-producao').value, 10) || 0,
-                taxaEscape: 0,
+                taxaEscape: null,
+                escapeTotalBase: 0,
+                escapeAmostraValida: false,
                 mttr: parseFloat(document.getElementById('mttr').value) || 0,
                 historiasTotais: parseInt(document.getElementById('historias-totais').value) || 0,
                 historiasAceitas: parseInt(document.getElementById('historias-aceitas').value) || 0,
@@ -146,9 +149,11 @@ class QADashboardNova {
             const ef = this.metricas.escapeTotalFalhasQa || 0;
             const et = this.metricas.escapeTotalBugsProducao || 0;
             const denomEscape = ef + et;
+            this.metricas.escapeTotalBase = denomEscape;
+            this.metricas.escapeAmostraValida = denomEscape >= ESCAPE_MINIMO_AMOSTRA;
             this.metricas.taxaEscape = MetricsCalculator && typeof MetricsCalculator.computeTaxaEscape === 'function'
                 ? MetricsCalculator.computeTaxaEscape(eb, ef, et)
-                : (denomEscape > 0 ? Math.round((eb / denomEscape) * 1000) / 10 : 0);
+                : (denomEscape >= ESCAPE_MINIMO_AMOSTRA ? Math.round((eb / denomEscape) * 1000) / 10 : null);
 
             const tc = this.metricas.testesCriados || 0;
             const ta = this.metricas.testesAutomatizados || 0;
@@ -168,7 +173,7 @@ class QADashboardNova {
         const taxaEscapeInput = document.getElementById('taxa-escape');
         if (taxaEscapeInput) {
             const v = this.metricas.taxaEscape;
-            taxaEscapeInput.value = Number.isFinite(v) ? (Math.round(v * 10) / 10).toFixed(1) : '0.0';
+            taxaEscapeInput.value = Number.isFinite(v) ? (Math.round(v * 10) / 10).toFixed(1) : '';
         }
 
         const taxaAutomacaoInput = document.getElementById('taxa-automacao');
@@ -230,7 +235,7 @@ class QADashboardNova {
             taxaSucessoTestes: 95
         };
 
-        if (this.metricas.taxaEscape <= metas.taxaEscape) score += 1;
+        if (this.metricas.escapeAmostraValida && this.metricas.taxaEscape <= metas.taxaEscape) score += 1;
         if (this.metricas.mttr <= metas.mttr) score += 1;
         if (this.metricas.taxaAcerto >= metas.taxaAcerto) score += 1;
         if (this.metricas.taxaSucessoTestes >= metas.taxaSucessoTestes) score += 1;
@@ -270,7 +275,7 @@ class QADashboardNova {
             taxaSucessoTestes: 95
         };
 
-        if (this.metricas.taxaEscape <= metas.taxaEscape) {
+        if (this.metricas.escapeAmostraValida && this.metricas.taxaEscape <= metas.taxaEscape) {
             pontos.push('Taxa de escape dentro da meta');
         }
         if (this.metricas.mttr <= metas.mttr) {
@@ -313,7 +318,9 @@ class QADashboardNova {
             taxaSucessoTestes: 95
         };
 
-        if (this.metricas.taxaEscape > metas.taxaEscape) {
+        if (!this.metricas.escapeAmostraValida) {
+            pontos.push(`Taxa de escape com amostra insuficiente (mínimo 20, atual ${this.metricas.escapeTotalBase || 0})`);
+        } else if (this.metricas.taxaEscape > metas.taxaEscape) {
             pontos.push('Taxa de escape acima da meta');
         }
         if (this.metricas.mttr > metas.mttr) {
@@ -368,7 +375,9 @@ class QADashboardNova {
 
         // Taxa de Escape
         const taxaEsc = Number(this.metricas.taxaEscape);
-        document.getElementById('taxa-escape-valor').textContent = `${Number.isFinite(taxaEsc) ? (Math.round(taxaEsc * 10) / 10).toFixed(1) : '0.0'}%`;
+        document.getElementById('taxa-escape-valor').textContent = Number.isFinite(taxaEsc)
+            ? `${(Math.round(taxaEsc * 10) / 10).toFixed(1)}%`
+            : 'N/A';
         
         // MTTR
         document.getElementById('mttr-valor').textContent = `${this.metricas.mttr}h`;
@@ -471,7 +480,8 @@ class QADashboardNova {
 
     atualizarProgressBars() {
         // Taxa de Escape (invertido - menor é melhor)
-        const taxaEscapeProgress = (100 - this.metricas.taxaEscape) / 100 * 100;
+        const taxaEscapeBase = Number.isFinite(this.metricas.taxaEscape) ? this.metricas.taxaEscape : 100;
+        const taxaEscapeProgress = (100 - taxaEscapeBase) / 100 * 100;
         document.getElementById('taxa-escape-progress').style.width = `${Math.min(taxaEscapeProgress, 100)}%`;
 
         // MTTR (invertido - menor é melhor)

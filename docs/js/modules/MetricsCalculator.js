@@ -12,6 +12,8 @@ const METAS = {
     aceitacaoHistorias: 90
 };
 
+const ESCAPE_MINIMO_AMOSTRA = 20;
+
 class MetricsCalculator {
     /**
      * Taxa de Escape (%): Bugs em produção / (Total falhas QA + Total bugs em produção) × 100
@@ -19,7 +21,7 @@ class MetricsCalculator {
     static computeTaxaEscape(bugsEmProducao, totalFalhasQa, totalBugsProducao) {
         const b = bugsEmProducao || 0;
         const denom = (totalFalhasQa || 0) + (totalBugsProducao || 0);
-        if (denom <= 0) return 0;
+        if (denom < ESCAPE_MINIMO_AMOSTRA) return null;
         return Math.round((b / denom) * 1000) / 10;
     }
 
@@ -79,6 +81,8 @@ class MetricsCalculator {
             escapeTotalFalhasQa,
             escapeTotalBugsProducao
         );
+        const escapeTotalBase = (escapeTotalFalhasQa || 0) + (escapeTotalBugsProducao || 0);
+        const escapeAmostraValida = escapeTotalBase >= ESCAPE_MINIMO_AMOSTRA;
 
         const taxaAutomacao = MetricsCalculator.computeTaxaAutomacao(testesAutomatizados, testesCriados);
 
@@ -88,6 +92,8 @@ class MetricsCalculator {
             ...metricas,
             totalFalhas,
             taxaEscape,
+            escapeTotalBase,
+            escapeAmostraValida,
             taxaAutomacao,
             taxaAcerto,
             taxaCorrecaoBugs,
@@ -104,7 +110,7 @@ class MetricsCalculator {
         let score = 0;
 
         // Taxa de Escape (menor é melhor)
-        if (metricas.taxaEscape <= METAS.taxaEscape) score += 1;
+        if (metricas.escapeAmostraValida && metricas.taxaEscape <= METAS.taxaEscape) score += 1;
 
         // MTTR (menor é melhor)
         if (metricas.mttr <= METAS.mttr) score += 1;
