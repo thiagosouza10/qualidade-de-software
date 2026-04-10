@@ -164,7 +164,7 @@
                         <div class="card-body p-3">
                             <div class="input-group-custom">
                                 <label for="taxa-escape">Taxa de Escape (%)</label>
-                                <input type="number" id="taxa-escape" class="form-control bg-light" placeholder="Calculada automaticamente" step="0.1" min="0" max="100" readonly aria-readonly="true" title="Bugs em produção ÷ (Total falhas QA + Total bugs em produção) × 100">
+                                <input type="number" id="taxa-escape" class="form-control bg-light" placeholder="Calculada automaticamente" step="0.1" min="0" max="100" readonly aria-readonly="true" title="Bugs em produção ÷ (Total falhas QA + Total bugs em produção) × 100 (válido apenas com base >= 20)">
                                 <small class="form-text text-muted">Meta: &lt; 5%</small>
                             </div>
                             <div class="row g-2 align-items-end">
@@ -559,6 +559,9 @@
                         </p>
                         <p class="text-muted mb-2">
                             <strong>Exemplo:</strong> 3 bugs em produção, 12 falhas QA e 8 no total de bugs em produção: 3 ÷ (12 + 8) × 100 = 15%
+                        </p>
+                        <p class="text-muted mb-2">
+                            <strong>Regra de validade:</strong> O cálculo só é considerado válido quando (<strong>Total de falhas QA</strong> + <strong>Total de Bugs em Produção</strong>) for <strong>maior ou igual a 20</strong>. Abaixo disso, a taxa é exibida como N/A.
                         </p>
                         <div class="alert alert-success py-2">
                             <small><strong>Meta:</strong> Menor que 5% - Indica boa qualidade dos testes</small>
