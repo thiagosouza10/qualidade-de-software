@@ -1,0 +1,4 @@
+interface:
+  display_name: "Estimate Jira Issues"
+  short_description: "Estimar PERT de itens do Jira"
+  default_prompt: "Use $estimate-jira-issues para calcular uma estimativa de tres pontos para uma issue do Jira."
