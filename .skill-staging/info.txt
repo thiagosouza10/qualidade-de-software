@@ -1,0 +1,2 @@
+Caminho onde fica salvo as skill após criar com o Codex ou manualmente.
+C:\Users\thiagosouza\.codex\skills
